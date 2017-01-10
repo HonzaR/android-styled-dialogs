@@ -1,8 +1,5 @@
 package com.avast.android.dialogs.fragment;
 
-import java.util.Arrays;
-import java.util.List;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -14,7 +11,13 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.avast.android.dialogs.R;
 import com.avast.android.dialogs.core.BaseDialogBuilder;
@@ -23,6 +26,9 @@ import com.avast.android.dialogs.iface.IListDialogListener;
 import com.avast.android.dialogs.iface.IMultiChoiceListDialogListener;
 import com.avast.android.dialogs.iface.ISimpleDialogCancelListener;
 import com.avast.android.dialogs.util.SparseBooleanArrayParcelable;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Dialog with a list of options.
@@ -304,6 +310,26 @@ public class ListDialogFragment extends BaseDialogFragment {
 
     @IntDef({AbsListView.CHOICE_MODE_MULTIPLE, AbsListView.CHOICE_MODE_SINGLE, AbsListView.CHOICE_MODE_NONE})
     public @interface ChoiceMode {
+    }
+
+    public View getContentView() {
+        return getDialogView(BaseDialogFragment.CONTENT);
+    }
+
+    public TextView getTitleView() {
+        return (TextView) getDialogView(BaseDialogFragment.TITLE);
+    }
+
+    public Button getPositiveBtnView() {
+        return (Button) getDialogView(BaseDialogFragment.POSITIVE_BUTTON);
+    }
+
+    public Button getNegativeBtnView() {
+        return (Button) getDialogView(BaseDialogFragment.NEGATIVE_BUTTON);
+    }
+
+    public ListView getListView() {
+        return (ListView) getDialogView(BaseDialogFragment.LIST);
     }
 
     public static class SimpleListDialogBuilder extends BaseDialogBuilder<SimpleListDialogBuilder> {

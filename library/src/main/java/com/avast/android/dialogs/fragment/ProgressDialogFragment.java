@@ -55,6 +55,21 @@ public class ProgressDialogFragment extends BaseDialogFragment {
         }
     }
 
+    //
+    // View getters
+    //
+
+    public View getContentView() {
+        return (View) getDialogView(BaseDialogFragment.CONTENT);
+    }
+
+    public TextView getTitleView() {
+        return (TextView) getDialogView(BaseDialogFragment.TITLE);
+    }
+
+    public TextView getMessageView() {
+        return (TextView) getDialogView(BaseDialogFragment.MESSAGE);
+    }
 
     public static class ProgressDialogBuilder extends BaseDialogBuilder<ProgressDialogBuilder> {
 

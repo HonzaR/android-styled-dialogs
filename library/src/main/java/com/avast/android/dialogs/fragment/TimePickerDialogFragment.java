@@ -2,6 +2,9 @@ package com.avast.android.dialogs.fragment;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.avast.android.dialogs.R;
@@ -25,6 +28,26 @@ public class TimePickerDialogFragment extends DatePickerDialogFragment {
 
     public static SimpleDialogBuilder createBuilder(Context context, FragmentManager fragmentManager) {
         return new SimpleDialogBuilder(context, fragmentManager, TimePickerDialogFragment.class);
+    }
+
+    //
+    // View getters
+    //
+
+    public View getContentView() {
+        return super.getContentView();
+    }
+
+    public TextView getTitleView() {
+        return super.getTitleView();
+    }
+
+    public Button getPositiveBtnView() {
+        return super.getPositiveBtnView();
+    }
+
+    public Button getNegativeBtnView() {
+        return super.getNegativeBtnView();
     }
 
     @Override

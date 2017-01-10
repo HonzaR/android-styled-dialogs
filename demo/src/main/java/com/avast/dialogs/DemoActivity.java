@@ -16,16 +16,13 @@
 
 package com.avast.dialogs;
 
-import java.text.DateFormat;
-import java.util.Date;
-
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.content.res.TypedArray;
 import android.util.TypedValue;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,17 +35,22 @@ import com.avast.android.dialogs.fragment.ProgressDialogFragment;
 import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 import com.avast.android.dialogs.fragment.TimePickerDialogFragment;
 import com.avast.android.dialogs.iface.IDateDialogListener;
+import com.avast.android.dialogs.iface.IDialogCompletelyDrawnListener;
 import com.avast.android.dialogs.iface.IListDialogListener;
 import com.avast.android.dialogs.iface.IMultiChoiceListDialogListener;
 import com.avast.android.dialogs.iface.ISimpleDialogCancelListener;
 import com.avast.android.dialogs.iface.ISimpleDialogListener;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 public class DemoActivity extends ActionBarActivity implements
         ISimpleDialogListener,
         IDateDialogListener,
         ISimpleDialogCancelListener,
         IListDialogListener,
-        IMultiChoiceListDialogListener {
+        IMultiChoiceListDialogListener,
+        IDialogCompletelyDrawnListener {
 
     private static final int REQUEST_PROGRESS = 1;
     private static final int REQUEST_LIST_SIMPLE = 9;
@@ -59,6 +61,8 @@ public class DemoActivity extends ActionBarActivity implements
     private static final int REQUEST_SIMPLE_DIALOG = 42;
 
     DemoActivity c = this;
+
+    SimpleDialogFragment dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,7 +101,7 @@ public class DemoActivity extends ActionBarActivity implements
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SimpleDialogFragment.createBuilder(c, getSupportFragmentManager())
+                        dialog = (SimpleDialogFragment) SimpleDialogFragment.createBuilder(c, getSupportFragmentManager())
                                 .setTitle("Do you like this quote?")
                                 .setMessage("Jayne: \"Shiny. Let's be bad guys.\"")
                                 .setPositiveButtonText("Love")
@@ -270,7 +274,15 @@ public class DemoActivity extends ActionBarActivity implements
         }
     }
 
-    // IDateDialogListener
+    @Override
+    public void onDialogCompletelyDrawn(int requestCode) {
+        Toast.makeText(getApplicationContext(), "Dialog drawn " + requestCode, Toast.LENGTH_SHORT).show();
+        if (dialog != null) {
+            dialog.getPositiveBtnView().setEnabled(false);
+        }
+    }
+
+// IDateDialogListener
 
     @Override
     public void onNegativeButtonClicked(int resultCode, Date date) {

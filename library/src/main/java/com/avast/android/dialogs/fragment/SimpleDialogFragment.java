@@ -23,9 +23,13 @@ import android.text.Html;
 import android.text.SpannedString;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.avast.android.dialogs.core.BaseDialogBuilder;
 import com.avast.android.dialogs.core.BaseDialogFragment;
+import com.avast.android.dialogs.iface.IDialogCompletelyDrawnListener;
 import com.avast.android.dialogs.iface.INegativeButtonDialogListener;
 import com.avast.android.dialogs.iface.INeutralButtonDialogListener;
 import com.avast.android.dialogs.iface.IPositiveButtonDialogListener;
@@ -170,6 +174,48 @@ public class SimpleDialogFragment extends BaseDialogFragment {
         return getDialogListeners(INeutralButtonDialogListener.class);
     }
 
+    /**
+     * Get dialog drawn listeners.
+     * There might be more than one listener.
+     *
+     * @return Dialog listeners
+     * @since 2.1.0
+     */
+    protected List<IDialogCompletelyDrawnListener> getDialogDrawnListeners() {
+        return getDialogListeners(IDialogCompletelyDrawnListener.class);
+    }
+
+    //
+    // View getters
+    //
+
+    public View getContentView() {
+        return getDialogView(BaseDialogFragment.CONTENT);
+    }
+
+    public TextView getTitleView() {
+        return (TextView) getDialogView(BaseDialogFragment.TITLE);
+    }
+
+    public TextView getMessageView() {
+        return (TextView) getDialogView(BaseDialogFragment.MESSAGE);
+    }
+
+    public View getCustomView() {
+        return getDialogView(BaseDialogFragment.CUSTOM_VIEW);
+    }
+
+    public Button getPositiveBtnView() {
+        return (Button) getDialogView(BaseDialogFragment.POSITIVE_BUTTON);
+    }
+
+    public Button getNegativeBtnView() {
+        return (Button) getDialogView(BaseDialogFragment.NEGATIVE_BUTTON);
+    }
+
+    public Button getNeutralBtnView() {
+        return (Button) getDialogView(BaseDialogFragment.NEUTRAL_BUTTON);
+    }
 
     public static class SimpleDialogBuilder extends BaseDialogBuilder<SimpleDialogBuilder> {
 
@@ -178,6 +224,7 @@ public class SimpleDialogFragment extends BaseDialogFragment {
         private CharSequence mPositiveButtonText;
         private CharSequence mNegativeButtonText;
         private CharSequence mNeutralButtonText;
+        private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener;
 
         protected SimpleDialogBuilder(Context context, FragmentManager fragmentManager, Class<? extends SimpleDialogFragment> clazz) {
             super(context, fragmentManager, clazz);
@@ -245,6 +292,12 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 
         public SimpleDialogBuilder setNeutralButtonText(CharSequence text) {
             mNeutralButtonText = text;
+            return this;
+        }
+
+        public SimpleDialogBuilder onDialogShown(final ViewTreeObserver.OnGlobalLayoutListener l)
+        {
+
             return this;
         }
 

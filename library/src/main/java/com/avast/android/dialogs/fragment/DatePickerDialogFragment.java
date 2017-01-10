@@ -6,7 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.avast.android.dialogs.R;
 import com.avast.android.dialogs.core.BaseDialogBuilder;
@@ -115,6 +117,26 @@ public class DatePickerDialogFragment extends BaseDialogFragment {
         mCalendar.set(Calendar.MONTH, mDatePicker.getMonth());
         mCalendar.set(Calendar.DAY_OF_MONTH, mDatePicker.getDayOfMonth());
         return mCalendar.getTime();
+    }
+
+    //
+    // View getters
+    //
+
+    public View getContentView() {
+        return (View) getDialogView(BaseDialogFragment.CONTENT);
+    }
+
+    public TextView getTitleView() {
+        return (TextView) getDialogView(BaseDialogFragment.TITLE);
+    }
+
+    public Button getPositiveBtnView() {
+        return (Button) getDialogView(BaseDialogFragment.POSITIVE_BUTTON);
+    }
+
+    public Button getNegativeBtnView() {
+        return (Button) getDialogView(BaseDialogFragment.NEGATIVE_BUTTON);
     }
 
     public static class SimpleDialogBuilder extends BaseDialogBuilder<SimpleDialogBuilder> {

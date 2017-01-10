@@ -16,10 +16,6 @@
 
 package com.avast.android.dialogs.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -48,8 +44,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.avast.android.dialogs.R;
+import com.avast.android.dialogs.iface.IDialogCompletelyDrawnListener;
 import com.avast.android.dialogs.iface.ISimpleDialogCancelListener;
 import com.avast.android.dialogs.util.TypefaceHelper;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Base dialog fragment for all your dialogs, styleable and same design on Android 2.2+.
@@ -59,6 +60,16 @@ import com.avast.android.dialogs.util.TypefaceHelper;
 public abstract class BaseDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
 
     protected int mRequestCode;
+    protected Builder builder;
+
+    protected final static String CONTENT = "content";
+    protected final static String TITLE = "title";
+    protected final static String MESSAGE = "message";
+    protected final static String CUSTOM_VIEW = "custom_view";
+    protected final static String POSITIVE_BUTTON = "positive_button";
+    protected final static String NEGATIVE_BUTTON = "negative_button";
+    protected final static String NEUTRAL_BUTTON = "neutral_button";
+    protected final static String LIST = "list";
 
     @NonNull
     @Override
@@ -78,7 +89,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Builder builder = new Builder(getActivity(), inflater, container);
+        builder = new Builder(getActivity(), inflater, container);
         return build(builder).create();
     }
 
@@ -93,6 +104,30 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
             if (args != null) {
                 mRequestCode = args.getInt(BaseDialogBuilder.ARG_REQUEST_CODE, 0);
             }
+        }
+    }
+
+    public View getDialogView(String stringIdentifier) {
+
+        switch (stringIdentifier) {
+            case CONTENT:
+                return builder.getvContent();
+            case TITLE:
+                return builder.getvTitle();
+            case MESSAGE:
+                return builder.getvMessage();
+            case CUSTOM_VIEW:
+                return builder.getvCustomView();
+            case POSITIVE_BUTTON:
+                return builder.getvPositiveButton();
+            case NEGATIVE_BUTTON:
+                return builder.getvNegativeButton();
+            case NEUTRAL_BUTTON:
+                return builder.getvNeutralButton();
+            case LIST:
+                return builder.getvList();
+            default:
+                return builder.getvContent();
         }
     }
 
@@ -137,6 +172,10 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
             boolean messageScrollable = isScrollable(vMessageScrollView);
             boolean scrollable = listViewScrollable || messageScrollable || customViewNoScrollViewScrollable;
             modifyButtonsBasedOnScrollableContent(scrollable);
+
+            for (IDialogCompletelyDrawnListener listener : getDialogListeners(IDialogCompletelyDrawnListener.class)) {
+                listener.onDialogCompletelyDrawn(mRequestCode);
+            }
         }
     }
 
@@ -268,7 +307,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
     /**
      * Custom dialog builder
      */
-    protected static class Builder {
+    protected class Builder {
 
         private final Context mContext;
 
@@ -303,6 +342,21 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
         private int[] mListCheckedItemMultipleIds;
 
         private AdapterView.OnItemClickListener mOnItemClickListener;
+
+        // Views
+        private LinearLayout content;
+        private TextView vTitle;
+        private TextView vMessage;
+        private FrameLayout vCustomView;
+        private Button vPositiveButton;
+        private Button vNegativeButton;
+        private Button vNeutralButton;
+        private Button vPositiveButtonStacked;
+        private Button vNegativeButtonStacked;
+        private Button vNeutralButtonStacked;
+        private View vButtonsDefault;
+        private View vButtonsStacked;
+        private ListView vList;
 
         public Builder(Context context, LayoutInflater inflater, ViewGroup container) {
             this.mContext = context;
@@ -400,19 +454,19 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
 
         public View create() {
 
-            LinearLayout content = (LinearLayout) mInflater.inflate(R.layout.sdl_dialog, mContainer, false);
-            TextView vTitle = (TextView) content.findViewById(R.id.sdl_title);
-            TextView vMessage = (TextView) content.findViewById(R.id.sdl_message);
-            FrameLayout vCustomView = (FrameLayout) content.findViewById(R.id.sdl_custom);
-            Button vPositiveButton = (Button) content.findViewById(R.id.sdl_button_positive);
-            Button vNegativeButton = (Button) content.findViewById(R.id.sdl_button_negative);
-            Button vNeutralButton = (Button) content.findViewById(R.id.sdl_button_neutral);
-            Button vPositiveButtonStacked = (Button) content.findViewById(R.id.sdl_button_positive_stacked);
-            Button vNegativeButtonStacked = (Button) content.findViewById(R.id.sdl_button_negative_stacked);
-            Button vNeutralButtonStacked = (Button) content.findViewById(R.id.sdl_button_neutral_stacked);
-            View vButtonsDefault = content.findViewById(R.id.sdl_buttons_default);
-            View vButtonsStacked = content.findViewById(R.id.sdl_buttons_stacked);
-            ListView vList = (ListView) content.findViewById(R.id.sdl_list);
+            content = (LinearLayout) mInflater.inflate(R.layout.sdl_dialog, mContainer, false);
+            vTitle = (TextView) content.findViewById(R.id.sdl_title);
+            vMessage = (TextView) content.findViewById(R.id.sdl_message);
+            vCustomView = (FrameLayout) content.findViewById(R.id.sdl_custom);
+            vPositiveButton = (Button) content.findViewById(R.id.sdl_button_positive);
+            vNegativeButton = (Button) content.findViewById(R.id.sdl_button_negative);
+            vNeutralButton = (Button) content.findViewById(R.id.sdl_button_neutral);
+            vPositiveButtonStacked = (Button) content.findViewById(R.id.sdl_button_positive_stacked);
+            vNegativeButtonStacked = (Button) content.findViewById(R.id.sdl_button_negative_stacked);
+            vNeutralButtonStacked = (Button) content.findViewById(R.id.sdl_button_neutral_stacked);
+            vButtonsDefault = content.findViewById(R.id.sdl_buttons_default);
+            vButtonsStacked = content.findViewById(R.id.sdl_buttons_stacked);
+            vList = (ListView) content.findViewById(R.id.sdl_list);
 
             Typeface regularFont = TypefaceHelper.get(mContext, "Roboto-Regular");
             Typeface mediumFont = TypefaceHelper.get(mContext, "Roboto-Medium");
@@ -499,6 +553,63 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
             } else {
                 textView.setVisibility(View.GONE);
             }
+        }
+
+        //
+        // View getters
+        //
+
+
+        private LinearLayout getvContent() {
+            return content;
+        }
+
+        private TextView getvTitle() {
+            return vTitle;
+        }
+
+        private TextView getvMessage() {
+            return vMessage;
+        }
+
+        private FrameLayout getvCustomView() {
+            return vCustomView;
+        }
+
+        private Button getvPositiveButton() {
+            return vPositiveButton;
+        }
+
+        private Button getvNegativeButton() {
+            return vNegativeButton;
+        }
+
+        private Button getvNeutralButton() {
+            return vNeutralButton;
+        }
+
+        private Button getvPositiveButtonStacked() {
+            return vPositiveButtonStacked;
+        }
+
+        private Button getvNegativeButtonStacked() {
+            return vNegativeButtonStacked;
+        }
+
+        private Button getvNeutralButtonStacked() {
+            return vNeutralButtonStacked;
+        }
+
+        private View getvButtonsDefault() {
+            return vButtonsDefault;
+        }
+
+        private View getvButtonsStacked() {
+            return vButtonsStacked;
+        }
+
+        private ListView getvList() {
+            return vList;
         }
     }
 }
