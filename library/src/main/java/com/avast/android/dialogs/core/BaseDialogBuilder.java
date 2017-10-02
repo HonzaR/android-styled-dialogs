@@ -101,8 +101,13 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
     }
 
     public DialogFragment show() {
-        BaseDialogFragment fragment = create();
-        fragment.show(mFragmentManager, mTag);
+        BaseDialogFragment fragment = null;
+        try {
+            fragment = create();
+            fragment.show(mFragmentManager, mTag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return fragment;
     }
 
@@ -113,8 +118,13 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
      * unexpectedly on the user.
      */
     public DialogFragment showAllowingStateLoss() {
-        BaseDialogFragment fragment = create();
-        fragment.showAllowingStateLoss(mFragmentManager, mTag);
+        BaseDialogFragment fragment = null;
+        try {
+            fragment = create();
+            fragment.showAllowingStateLoss(mFragmentManager, mTag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return fragment;
     }
 }
