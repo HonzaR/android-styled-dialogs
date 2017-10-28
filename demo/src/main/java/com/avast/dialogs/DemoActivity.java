@@ -40,6 +40,7 @@ import com.avast.android.dialogs.iface.IListDialogListener;
 import com.avast.android.dialogs.iface.IMultiChoiceListDialogListener;
 import com.avast.android.dialogs.iface.ISimpleDialogCancelListener;
 import com.avast.android.dialogs.iface.ISimpleDialogListener;
+import com.avast.android.dialogs.util.TypefaceHelper;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -75,6 +76,8 @@ public class DemoActivity extends ActionBarActivity implements
             @Override
             public void onClick(View v) {
                 SimpleDialogFragment.createBuilder(c, getSupportFragmentManager())
+                        .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
+                        .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .setMessage("Love. Can know all the math in the \'verse but take a boat in the air that you don\'t " +
                                 "love? She\'ll shake you off just as sure as a turn in the worlds. Love keeps her in the air when " +
                                 "she oughtta fall down...tell you she\'s hurtin\' \'fore she keens...makes her a home.").show();
@@ -84,7 +87,8 @@ public class DemoActivity extends ActionBarActivity implements
             @Override
             public void onClick(View v) {
                 SimpleDialogFragment.createBuilder(c, getSupportFragmentManager())
-                        .setTitle("More Firefly quotes:").setMessage
+                        .setTitle("More Firefly quotes:")
+                        .setMessage
                         ("Wash: \"Psychic, though? That sounds like something out of science fiction.\"\n\nZoe: \"We live" +
                                 " " +
                                 "in a space ship, dear.\"\nWash: \"Here lies my beloved Zoe, " +
@@ -94,6 +98,8 @@ public class DemoActivity extends ActionBarActivity implements
                                         "Jayne: \"I can stand to hear a little more.\"\n\nWash: \"I've been under fire before. " +
                                         "Well ... I've been in a fire. Actually, I was fired. I can handle myself.\""))
                         .setNegativeButtonText("Close")
+                        .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
+                        .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .show();
             }
         });
@@ -108,6 +114,8 @@ public class DemoActivity extends ActionBarActivity implements
                                 .setNegativeButtonText("Hate")
                                 .setNeutralButtonText("WTF?")
                                 .setRequestCode(REQUEST_SIMPLE_DIALOG)
+                                .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
+                                .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                                 .show();
                     }
                 });
@@ -116,6 +124,8 @@ public class DemoActivity extends ActionBarActivity implements
             public void onClick(View v) {
                 SimpleDialogFragment.createBuilder(c, getSupportFragmentManager()).setMessage("How will you decide?")
                         .setPositiveButtonText("Time for some thrillin' heroics!").setNegativeButtonText("Misbehave")
+                        .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
+                        .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .setNeutralButtonText("Keep flying").show();
             }
         });
@@ -125,6 +135,8 @@ public class DemoActivity extends ActionBarActivity implements
                 ProgressDialogFragment.createBuilder(c, getSupportFragmentManager())
                         .setMessage("Mal: I\'m just waiting to see if I pass out. Long story.")
                         .setRequestCode(REQUEST_PROGRESS)
+                        .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
+                        .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .show();
             }
         });
@@ -134,6 +146,8 @@ public class DemoActivity extends ActionBarActivity implements
                 ListDialogFragment
                         .createBuilder(c, getSupportFragmentManager())
                         .setTitle("Your favorite character:")
+                        .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
+                        .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .setItems(new String[]{"Jayne", "Malcolm", "Kaylee",
                                 "Wash", "Zoe", "River"})
                         .setRequestCode(REQUEST_LIST_SIMPLE)
@@ -147,6 +161,8 @@ public class DemoActivity extends ActionBarActivity implements
                 ListDialogFragment
                         .createBuilder(c, getSupportFragmentManager())
                         .setTitle("Your favorite character:")
+                        .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
+                        .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .setItems(new String[]{"Jayne", "Malcolm", "Kaylee",
                                 "Wash", "Zoe", "River"})
                         .setRequestCode(REQUEST_LIST_SINGLE)
@@ -161,6 +177,8 @@ public class DemoActivity extends ActionBarActivity implements
                 ListDialogFragment
                         .createBuilder(c, getSupportFragmentManager())
                         .setTitle("Your favorite character:")
+                        .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
+                        .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .setItems(new String[]{"Jayne", "Malcolm", "Kaylee",
                                 "Wash", "Zoe", "River"})
                         .setRequestCode(REQUEST_LIST_MULTIPLE)

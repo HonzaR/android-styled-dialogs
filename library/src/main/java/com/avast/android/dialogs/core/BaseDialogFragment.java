@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
@@ -33,13 +34,16 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -343,6 +347,9 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
 
         private AdapterView.OnItemClickListener mOnItemClickListener;
 
+        private Typeface mFontRegular;
+        private Typeface mFontMedium;
+
         // Views
         private LinearLayout content;
         private TextView vTitle;
@@ -452,6 +459,15 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
             return this;
         }
 
+        public Builder setFontRegular(Typeface font) {
+            mFontRegular = font;
+            return this;
+        }
+        public Builder setFontMedium(Typeface font) {
+            mFontMedium = font;
+            return this;
+        }
+
         public View create() {
 
             content = (LinearLayout) mInflater.inflate(R.layout.sdl_dialog, mContainer, false);
@@ -468,8 +484,8 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
             vButtonsStacked = content.findViewById(R.id.sdl_buttons_stacked);
             vList = (ListView) content.findViewById(R.id.sdl_list);
 
-            Typeface regularFont = TypefaceHelper.get(mContext, "Roboto-Regular");
-            Typeface mediumFont = TypefaceHelper.get(mContext, "Roboto-Medium");
+            Typeface regularFont = mFontRegular != null ? mFontRegular : TypefaceHelper.get(mContext, "Roboto-Regular");
+            Typeface mediumFont = mFontMedium != null ? mFontMedium :  TypefaceHelper.get(mContext, "Roboto-Medium");
 
             set(vTitle, mTitle, mediumFont);
             set(vMessage, mMessage, regularFont);
@@ -489,6 +505,39 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
                     for (int i : mListCheckedItemMultipleIds) {
                         vList.setItemChecked(i, true);
                     }
+                }
+                if (mFontRegular != null) {
+
+                    vList.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            ViewTreeObserver vto = vList.getViewTreeObserver();
+                            if (vto != null && vto.isAlive()) {
+                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+                                    vto.removeGlobalOnLayoutListener(this);
+                                else
+                                    vto.removeOnGlobalLayoutListener(this);
+                            }
+                            new ViewTreeObserver.OnGlobalLayoutListener() {
+                                @Override
+                                public void onGlobalLayout() {
+
+                                    for (int i = 0; i < vList.getChildCount(); i++) {
+                                        View view = vList.getChildAt(i);
+                                        if (view instanceof TextView) {
+                                            ((TextView) view).setTypeface(mFontRegular);
+                                        } else if (view instanceof ViewGroup) {
+                                            for (int j = 0; j < ((ViewGroup)view).getChildCount(); j++) {
+                                                View view2 = ((ViewGroup)view).getChildAt(j);
+                                                if (view2 instanceof TextView)
+                                                    ((TextView) view2).setTypeface(mFontRegular);
+                                            }
+                                        }
+                                    }
+                                }
+                            }.onGlobalLayout();
+                        }
+                    });
                 }
             }
 

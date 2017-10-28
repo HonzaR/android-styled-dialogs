@@ -1,6 +1,7 @@
 package com.avast.android.dialogs.fragment;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -27,6 +28,8 @@ public class ProgressDialogFragment extends BaseDialogFragment {
     protected final static String ARG_MESSAGE = "message";
     protected final static String ARG_TITLE = "title";
 
+    static Typeface mFontRegular = null;
+    static Typeface mFontMedium = null;
 
     public static ProgressDialogBuilder createBuilder(Context context, FragmentManager fragmentManager) {
         return new ProgressDialogBuilder(context, fragmentManager);
@@ -37,6 +40,14 @@ public class ProgressDialogFragment extends BaseDialogFragment {
         final LayoutInflater inflater = builder.getLayoutInflater();
         final View view = inflater.inflate(R.layout.sdl_progress, null, false);
         final TextView tvMessage = (TextView) view.findViewById(R.id.sdl_message);
+
+        if (mFontRegular != null) {
+            builder.setFontRegular(mFontRegular);
+            tvMessage.setTypeface(mFontRegular);
+        }
+        if (mFontMedium != null) {
+            builder.setFontMedium(mFontMedium);
+        }
 
         tvMessage.setText(getArguments().getCharSequence(ARG_MESSAGE));
 
@@ -78,6 +89,8 @@ public class ProgressDialogFragment extends BaseDialogFragment {
 
         protected ProgressDialogBuilder(Context context, FragmentManager fragmentManager) {
             super(context, fragmentManager, ProgressDialogFragment.class);
+            mFontRegular = null;
+            mFontMedium = null;
         }
 
         @Override
@@ -103,6 +116,16 @@ public class ProgressDialogFragment extends BaseDialogFragment {
 
         public ProgressDialogBuilder setMessage(CharSequence message) {
             mMessage = message;
+            return this;
+        }
+
+        public ProgressDialogBuilder setFontRegular(Typeface font) {
+            mFontRegular = font;
+            return this;
+        }
+
+        public ProgressDialogBuilder setFontMedium(Typeface font) {
+            mFontMedium = font;
             return this;
         }
 

@@ -2,6 +2,7 @@ package com.avast.android.dialogs.fragment;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -46,6 +47,9 @@ public class ListDialogFragment extends BaseDialogFragment {
     protected final static String ARG_TITLE = "title";
     protected final static String ARG_POSITIVE_BUTTON = "positive_button";
     protected final static String ARG_NEGATIVE_BUTTON = "negative_button";
+
+    static Typeface mFontRegular = null;
+    static Typeface mFontMedium = null;
 
     public static SimpleListDialogBuilder createBuilder(Context context, FragmentManager fragmentManager) {
         return new SimpleListDialogBuilder(context, fragmentManager);
@@ -147,9 +151,17 @@ public class ListDialogFragment extends BaseDialogFragment {
 
     @Override
     protected Builder build(Builder builder) {
+
         final CharSequence title = getTitle();
         if (!TextUtils.isEmpty(title)) {
             builder.setTitle(title);
+        }
+
+        if (mFontRegular != null) {
+            builder.setFontRegular(mFontRegular);
+        }
+        if (mFontMedium != null) {
+            builder.setFontMedium(mFontMedium);
         }
 
         if (!TextUtils.isEmpty(getNegativeButtonText())) {
@@ -348,6 +360,8 @@ public class ListDialogFragment extends BaseDialogFragment {
 
         public SimpleListDialogBuilder(Context context, FragmentManager fragmentManager) {
             super(context, fragmentManager, ListDialogFragment.class);
+            mFontRegular = null;
+            mFontMedium = null;
         }
 
         @Override
@@ -426,6 +440,16 @@ public class ListDialogFragment extends BaseDialogFragment {
 
         public SimpleListDialogBuilder setCancelButtonText(int cancelBttTextResID) {
             this.cancelButtonText = getResources().getString(cancelBttTextResID);
+            return this;
+        }
+
+        public SimpleListDialogBuilder setFontRegular(Typeface font) {
+            mFontRegular = font;
+            return this;
+        }
+
+        public SimpleListDialogBuilder setFontMedium(Typeface font) {
+            mFontMedium = font;
             return this;
         }
 

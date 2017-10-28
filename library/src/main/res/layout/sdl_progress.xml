@@ -10,6 +10,9 @@
 
     <TextView
         android:id="@+id/sdl_message"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
+
         style="@style/SDL.TextView.Message.Progress"
         tools:text="Message ..." />
 

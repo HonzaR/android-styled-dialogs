@@ -17,6 +17,7 @@
 package com.avast.android.dialogs.fragment;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
@@ -52,6 +53,8 @@ public class SimpleDialogFragment extends BaseDialogFragment {
     protected final static String ARG_NEGATIVE_BUTTON = "negative_button";
     protected final static String ARG_NEUTRAL_BUTTON = "neutral_button";
 
+    static Typeface mFontRegular = null;
+    static Typeface mFontMedium = null;
 
     public static SimpleDialogBuilder createBuilder(Context context, FragmentManager fragmentManager) {
         return new SimpleDialogBuilder(context, fragmentManager, SimpleDialogFragment.class);
@@ -118,6 +121,16 @@ public class SimpleDialogFragment extends BaseDialogFragment {
             });
         }
 
+        final Typeface fontRegular = getFontRegular();
+        if (fontRegular != null) {
+            builder.setFontRegular(fontRegular);
+        }
+
+        final Typeface fontMedium = getFontMedium();
+        if (fontMedium != null) {
+            builder.setFontMedium(fontMedium);
+        }
+
         return builder;
     }
 
@@ -139,6 +152,14 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 
     protected CharSequence getNeutralButtonText() {
         return getArguments().getCharSequence(ARG_NEUTRAL_BUTTON);
+    }
+
+    protected Typeface getFontRegular() {
+        return mFontRegular;
+    }
+
+    protected Typeface getFontMedium() {
+        return mFontMedium;
     }
 
     /**
@@ -224,10 +245,11 @@ public class SimpleDialogFragment extends BaseDialogFragment {
         private CharSequence mPositiveButtonText;
         private CharSequence mNegativeButtonText;
         private CharSequence mNeutralButtonText;
-        private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener;
 
         protected SimpleDialogBuilder(Context context, FragmentManager fragmentManager, Class<? extends SimpleDialogFragment> clazz) {
             super(context, fragmentManager, clazz);
+            mFontRegular = null;
+            mFontMedium = null;
         }
 
         @Override
@@ -248,6 +270,16 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 
         public SimpleDialogBuilder setMessage(int messageResourceId) {
             mMessage = mContext.getText(messageResourceId);
+            return this;
+        }
+
+        public SimpleDialogBuilder setFontRegular(Typeface font) {
+            mFontRegular = font;
+            return this;
+        }
+
+        public SimpleDialogBuilder setFontMedium(Typeface font) {
+            mFontMedium = font;
             return this;
         }
 
@@ -297,7 +329,6 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 
         public SimpleDialogBuilder onDialogShown(final ViewTreeObserver.OnGlobalLayoutListener l)
         {
-
             return this;
         }
 
