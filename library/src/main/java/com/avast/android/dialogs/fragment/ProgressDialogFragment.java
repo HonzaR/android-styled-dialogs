@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.avast.android.dialogs.R;
@@ -70,8 +71,8 @@ public class ProgressDialogFragment extends BaseDialogFragment {
     // View getters
     //
 
-    public View getContentView() {
-        return (View) getDialogView(BaseDialogFragment.CONTENT);
+    public ViewGroup getContentView() {
+        return (ViewGroup) getDialogView(BaseDialogFragment.CUSTOM_VIEW);
     }
 
     public TextView getTitleView() {
@@ -79,7 +80,39 @@ public class ProgressDialogFragment extends BaseDialogFragment {
     }
 
     public TextView getMessageView() {
-        return (TextView) getDialogView(BaseDialogFragment.MESSAGE);
+        return (TextView) getContentView().findViewById(R.id.sdl_message);
+    }
+
+    //
+    // Property getters and setters
+    //
+
+    public void setTitle(CharSequence title)
+    {
+        if (getTitleView() != null)
+            getTitleView().setText(title);
+    }
+
+    public CharSequence getTitle()
+    {
+        if (getTitleView() != null)
+            return getTitleView().getText();
+
+        return null;
+    }
+
+    public void setMessage(CharSequence message)
+    {
+        if (getMessageView() != null)
+            getMessageView().setText(message);
+    }
+
+    public CharSequence getMessage()
+    {
+        if (getMessageView() != null)
+            return getMessageView().getText();
+
+        return null;
     }
 
     public static class ProgressDialogBuilder extends BaseDialogBuilder<ProgressDialogBuilder> {

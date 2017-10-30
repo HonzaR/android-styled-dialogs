@@ -150,10 +150,26 @@ public class DemoActivity extends ActionBarActivity implements
         findViewById(R.id.progress_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProgressDialogFragment.createBuilder(c, getSupportFragmentManager())
+                final ProgressDialogFragment dialog = (ProgressDialogFragment) ProgressDialogFragment.createBuilder(c, getSupportFragmentManager())
                         .setMessage("Mal: I\'m just waiting to see if I pass out. Long story.")
+                        .setTitle("title")
                         .setRequestCode(REQUEST_PROGRESS)
                         .show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.setMessage("new message");
+                        dialog.setTitle("new title");
+                    }
+                }, 2500);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.setMessage("new message 2");
+                        dialog.setTitle("new title 2");
+                    }
+                }, 5500);
             }
         });
         findViewById(R.id.list_dialog_simple).setOnClickListener(new View.OnClickListener() {
