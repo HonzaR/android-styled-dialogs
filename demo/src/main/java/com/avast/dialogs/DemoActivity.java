@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -76,6 +77,7 @@ public class DemoActivity extends ActionBarActivity implements
             @Override
             public void onClick(View v) {
                 SimpleDialogFragment.createBuilder(c, getSupportFragmentManager())
+                        .setTitle("Title")
                         .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
                         .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .setMessage("Love. Can know all the math in the \'verse but take a boat in the air that you don\'t " +
@@ -86,10 +88,12 @@ public class DemoActivity extends ActionBarActivity implements
         findViewById(R.id.message_title_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SimpleDialogFragment.createBuilder(c, getSupportFragmentManager())
-                        .setTitle("More Firefly quotes:")
-                        .setMessage
-                        ("Wash: \"Psychic, though? That sounds like something out of science fiction.\"\n\nZoe: \"We live" +
+                 final SimpleDialogFragment dialog = (SimpleDialogFragment) SimpleDialogFragment.createBuilder(c, getSupportFragmentManager())
+                         .setTitle("More Firefly quotes:")
+                         .setNegativeButtonText("Close")
+                         .setPositiveButtonText("Open")
+                         .setNeutralButtonText("Leave it")
+                         .setMessage("Wash: \"Psychic, though? That sounds like something out of science fiction.\"\n\nZoe: \"We live" +
                                 " " +
                                 "in a space ship, dear.\"\nWash: \"Here lies my beloved Zoe, " +
                                 ("my autumn flower ... somewhat less attractive now that she's all corpsified and gross" +
@@ -97,10 +101,28 @@ public class DemoActivity extends ActionBarActivity implements
                                         "Mal: \"I can't know that.\" \n" +
                                         "Jayne: \"I can stand to hear a little more.\"\n\nWash: \"I've been under fire before. " +
                                         "Well ... I've been in a fire. Actually, I was fired. I can handle myself.\""))
-                        .setNegativeButtonText("Close")
-                        .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
-                        .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
-                        .show();
+                         .show();
+
+                 new Handler().postDelayed(new Runnable() {
+                     @Override
+                     public void run() {
+                         dialog.setMessage("new message");
+                         dialog.setTitle("new title");
+                         dialog.setPositiveBtnText("new positive");
+                         dialog.setNegativeBtnText("new negative");
+                         dialog.setNeutralBtnText("new neutral");
+                     }
+                 }, 2500);
+                 new Handler().postDelayed(new Runnable() {
+                     @Override
+                     public void run() {
+                         dialog.setMessage("new message 2");
+                         dialog.setTitle("new title 2");
+                         dialog.setPositiveBtnText("new positive 2");
+                         dialog.setNegativeBtnText("new negative 2");
+                         dialog.setNeutralBtnText("new neutral 2");
+                     }
+                 }, 5500);
             }
         });
         findViewById(R.id.message_title_buttons_dialog)
@@ -114,8 +136,6 @@ public class DemoActivity extends ActionBarActivity implements
                                 .setNegativeButtonText("Hate")
                                 .setNeutralButtonText("WTF?")
                                 .setRequestCode(REQUEST_SIMPLE_DIALOG)
-                                .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
-                                .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                                 .show();
                     }
                 });
@@ -124,8 +144,6 @@ public class DemoActivity extends ActionBarActivity implements
             public void onClick(View v) {
                 SimpleDialogFragment.createBuilder(c, getSupportFragmentManager()).setMessage("How will you decide?")
                         .setPositiveButtonText("Time for some thrillin' heroics!").setNegativeButtonText("Misbehave")
-                        .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
-                        .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .setNeutralButtonText("Keep flying").show();
             }
         });
@@ -135,8 +153,6 @@ public class DemoActivity extends ActionBarActivity implements
                 ProgressDialogFragment.createBuilder(c, getSupportFragmentManager())
                         .setMessage("Mal: I\'m just waiting to see if I pass out. Long story.")
                         .setRequestCode(REQUEST_PROGRESS)
-                        .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
-                        .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .show();
             }
         });
@@ -146,8 +162,6 @@ public class DemoActivity extends ActionBarActivity implements
                 ListDialogFragment
                         .createBuilder(c, getSupportFragmentManager())
                         .setTitle("Your favorite character:")
-                        .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
-                        .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .setItems(new String[]{"Jayne", "Malcolm", "Kaylee",
                                 "Wash", "Zoe", "River"})
                         .setRequestCode(REQUEST_LIST_SIMPLE)
@@ -161,8 +175,6 @@ public class DemoActivity extends ActionBarActivity implements
                 ListDialogFragment
                         .createBuilder(c, getSupportFragmentManager())
                         .setTitle("Your favorite character:")
-                        .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
-                        .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .setItems(new String[]{"Jayne", "Malcolm", "Kaylee",
                                 "Wash", "Zoe", "River"})
                         .setRequestCode(REQUEST_LIST_SINGLE)
@@ -177,8 +189,6 @@ public class DemoActivity extends ActionBarActivity implements
                 ListDialogFragment
                         .createBuilder(c, getSupportFragmentManager())
                         .setTitle("Your favorite character:")
-                        .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
-                        .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .setItems(new String[]{"Jayne", "Malcolm", "Kaylee",
                                 "Wash", "Zoe", "River"})
                         .setRequestCode(REQUEST_LIST_MULTIPLE)

@@ -72,17 +72,17 @@ public class SimpleDialogFragment extends BaseDialogFragment {
      */
     @Override
     protected BaseDialogFragment.Builder build(BaseDialogFragment.Builder builder) {
-        final CharSequence title = getTitle();
-        if (!TextUtils.isEmpty(title)) {
+        final CharSequence title = getArguments().getCharSequence(ARG_TITLE);
+            if (!TextUtils.isEmpty(title)) {
             builder.setTitle(title);
         }
 
-        final CharSequence message = getMessage();
+        final CharSequence message = getArguments().getCharSequence(ARG_MESSAGE);
         if (!TextUtils.isEmpty(message)) {
             builder.setMessage(message);
         }
 
-        final CharSequence positiveButtonText = getPositiveButtonText();
+        final CharSequence positiveButtonText = getArguments().getCharSequence(ARG_POSITIVE_BUTTON);
         if (!TextUtils.isEmpty(positiveButtonText)) {
             builder.setPositiveButton(positiveButtonText, new View.OnClickListener() {
                 @Override
@@ -95,7 +95,7 @@ public class SimpleDialogFragment extends BaseDialogFragment {
             });
         }
 
-        final CharSequence negativeButtonText = getNegativeButtonText();
+        final CharSequence negativeButtonText = getArguments().getCharSequence(ARG_NEGATIVE_BUTTON);
         if (!TextUtils.isEmpty(negativeButtonText)) {
             builder.setNegativeButton(negativeButtonText, new View.OnClickListener() {
                 @Override
@@ -108,7 +108,7 @@ public class SimpleDialogFragment extends BaseDialogFragment {
             });
         }
 
-        final CharSequence neutralButtonText = getNeutralButtonText();
+        final CharSequence neutralButtonText = getArguments().getCharSequence(ARG_NEUTRAL_BUTTON);
         if (!TextUtils.isEmpty(neutralButtonText)) {
             builder.setNeutralButton(neutralButtonText, new View.OnClickListener() {
                 @Override
@@ -134,31 +134,82 @@ public class SimpleDialogFragment extends BaseDialogFragment {
         return builder;
     }
 
-    protected CharSequence getMessage() {
-        return getArguments().getCharSequence(ARG_MESSAGE);
+    //
+    // Property getters and setters
+    //
+
+    public void setTitle(CharSequence title)
+    {
+        if (getTitleView() != null)
+            getTitleView().setText(title);
     }
 
-    protected CharSequence getTitle() {
-        return getArguments().getCharSequence(ARG_TITLE);
+    public CharSequence getTitle()
+    {
+        if (getTitleView() != null)
+            return getTitleView().getText();
+
+        return null;
     }
 
-    protected CharSequence getPositiveButtonText() {
-        return getArguments().getCharSequence(ARG_POSITIVE_BUTTON);
+    public void setMessage(CharSequence message)
+    {
+        if (getMessageView() != null)
+            getMessageView().setText(message);
     }
 
-    protected CharSequence getNegativeButtonText() {
-        return getArguments().getCharSequence(ARG_NEGATIVE_BUTTON);
+    public CharSequence getMessage()
+    {
+        if (getMessageView() != null)
+            return getMessageView().getText();
+
+        return null;
     }
 
-    protected CharSequence getNeutralButtonText() {
-        return getArguments().getCharSequence(ARG_NEUTRAL_BUTTON);
+    public CharSequence getPositiveButtonText()
+    {
+        if (getPositiveBtnView() != null)
+            return getPositiveBtnView().getText();
+
+        return null;
+    }
+    public void setPositiveBtnText(CharSequence message)
+    {
+        if (getPositiveBtnView() != null)
+            getPositiveBtnView().setText(message);
     }
 
-    protected Typeface getFontRegular() {
+    public CharSequence getNegativeButtonText()
+    {
+        if (getNegativeBtnView() != null)
+            return getNegativeBtnView().getText();
+
+        return null;
+    }
+    public void setNegativeBtnText(CharSequence message)
+    {
+        if (getNegativeBtnView() != null)
+            getNegativeBtnView().setText(message);
+    }
+
+    public CharSequence getNeutralButtonText()
+    {
+        if (getNeutralBtnView() != null)
+            return getNeutralBtnView().getText();
+
+        return null;
+    }
+    public void setNeutralBtnText(CharSequence message)
+    {
+        if (getNeutralBtnView() != null)
+            getNeutralBtnView().setText(message);
+    }
+
+    public Typeface getFontRegular() {
         return mFontRegular;
     }
 
-    protected Typeface getFontMedium() {
+    public Typeface getFontMedium() {
         return mFontMedium;
     }
 
