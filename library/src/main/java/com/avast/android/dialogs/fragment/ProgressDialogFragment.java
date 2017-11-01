@@ -80,7 +80,11 @@ public class ProgressDialogFragment extends BaseDialogFragment {
     }
 
     public TextView getMessageView() {
-        return (TextView) getContentView().findViewById(R.id.sdl_message);
+        TextView msg = null;
+        if (getContentView() != null) {
+            msg = (TextView) getContentView().findViewById(R.id.sdl_message);
+        }
+        return msg;
     }
 
     //

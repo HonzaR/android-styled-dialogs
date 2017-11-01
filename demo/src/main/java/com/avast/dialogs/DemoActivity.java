@@ -156,13 +156,10 @@ public class DemoActivity extends ActionBarActivity implements
                         .setRequestCode(REQUEST_PROGRESS)
                         .show();
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialog.setMessage("new message");
-                        dialog.setTitle("new title");
-                    }
-                }, 2500);
+
+                dialog.setMessage("new message");
+                dialog.setTitle("new title");
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

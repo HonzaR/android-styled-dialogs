@@ -38,12 +38,10 @@ import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -112,6 +110,9 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
     }
 
     public View getDialogView(String stringIdentifier) {
+
+        if (builder == null)
+            return null;
 
         switch (stringIdentifier) {
             case CONTENT:
