@@ -26,7 +26,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -51,7 +51,7 @@ import com.avast.android.dialogs.util.TypefaceHelper;
 import java.text.DateFormat;
 import java.util.Date;
 
-public class DemoActivity extends ActionBarActivity implements
+public class DemoActivity extends AppCompatActivity implements
         ISimpleDialogListener,
         IDateDialogListener,
         ISimpleDialogCancelListener,
