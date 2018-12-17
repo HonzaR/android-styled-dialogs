@@ -17,6 +17,7 @@
 package com.avast.android.dialogs.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -55,6 +56,7 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 
     static Typeface mFontRegular = null;
     static Typeface mFontMedium = null;
+    static Bitmap mIcon = null;
 
     public static SimpleDialogBuilder createBuilder(Context context, FragmentManager fragmentManager) {
         return new SimpleDialogBuilder(context, fragmentManager, SimpleDialogFragment.class);
@@ -129,6 +131,11 @@ public class SimpleDialogFragment extends BaseDialogFragment {
         final Typeface fontMedium = getFontMedium();
         if (fontMedium != null) {
             builder.setFontMedium(fontMedium);
+        }
+
+        final Bitmap icon = getIcon();
+        if (icon != null) {
+            builder.setIcon(icon);
         }
 
         return builder;
@@ -211,6 +218,10 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 
     public Typeface getFontMedium() {
         return mFontMedium;
+    }
+
+    public Bitmap getIcon() {
+        return mIcon;
     }
 
     /**
@@ -301,6 +312,7 @@ public class SimpleDialogFragment extends BaseDialogFragment {
             super(context, fragmentManager, clazz);
             mFontRegular = null;
             mFontMedium = null;
+            mIcon = null;
         }
 
         @Override
@@ -331,6 +343,11 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 
         public SimpleDialogBuilder setFontMedium(Typeface font) {
             mFontMedium = font;
+            return this;
+        }
+
+        public SimpleDialogBuilder setIcon(Bitmap bitmap) {
+            mIcon = bitmap;
             return this;
         }
 

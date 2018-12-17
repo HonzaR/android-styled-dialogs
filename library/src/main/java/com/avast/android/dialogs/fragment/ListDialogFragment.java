@@ -2,6 +2,7 @@ package com.avast.android.dialogs.fragment;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
@@ -50,6 +51,7 @@ public class ListDialogFragment extends BaseDialogFragment {
 
     static Typeface mFontRegular = null;
     static Typeface mFontMedium = null;
+    static Bitmap mIcon = null;
 
     public static SimpleListDialogBuilder createBuilder(Context context, FragmentManager fragmentManager) {
         return new SimpleListDialogBuilder(context, fragmentManager);
@@ -162,6 +164,10 @@ public class ListDialogFragment extends BaseDialogFragment {
         }
         if (mFontMedium != null) {
             builder.setFontMedium(mFontMedium);
+        }
+
+        if (mIcon != null) {
+            builder.setIcon(mIcon);
         }
 
         if (!TextUtils.isEmpty(getNegativeButtonText())) {
@@ -362,6 +368,7 @@ public class ListDialogFragment extends BaseDialogFragment {
             super(context, fragmentManager, ListDialogFragment.class);
             mFontRegular = null;
             mFontMedium = null;
+            mIcon = null;
         }
 
         @Override
@@ -450,6 +457,11 @@ public class ListDialogFragment extends BaseDialogFragment {
 
         public SimpleListDialogBuilder setFontMedium(Typeface font) {
             mFontMedium = font;
+            return this;
+        }
+
+        public SimpleListDialogBuilder setIcon(Bitmap icon) {
+            mIcon = icon;
             return this;
         }
 

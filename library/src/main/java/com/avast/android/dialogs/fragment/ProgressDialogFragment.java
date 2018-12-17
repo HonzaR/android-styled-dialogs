@@ -1,6 +1,7 @@
 package com.avast.android.dialogs.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -31,6 +32,7 @@ public class ProgressDialogFragment extends BaseDialogFragment {
 
     static Typeface mFontRegular = null;
     static Typeface mFontMedium = null;
+    static Bitmap mIcon = null;
 
     public static ProgressDialogBuilder createBuilder(Context context, FragmentManager fragmentManager) {
         return new ProgressDialogBuilder(context, fragmentManager);
@@ -48,6 +50,11 @@ public class ProgressDialogFragment extends BaseDialogFragment {
         }
         if (mFontMedium != null) {
             builder.setFontMedium(mFontMedium);
+            tvMessage.setTypeface(mFontMedium);
+        }
+
+        if (mIcon != null) {
+            builder.setIcon(mIcon);
         }
 
         tvMessage.setText(getArguments().getCharSequence(ARG_MESSAGE));
@@ -128,6 +135,7 @@ public class ProgressDialogFragment extends BaseDialogFragment {
             super(context, fragmentManager, ProgressDialogFragment.class);
             mFontRegular = null;
             mFontMedium = null;
+            mIcon = null;
         }
 
         @Override
@@ -163,6 +171,11 @@ public class ProgressDialogFragment extends BaseDialogFragment {
 
         public ProgressDialogBuilder setFontMedium(Typeface font) {
             mFontMedium = font;
+            return this;
+        }
+
+        public ProgressDialogBuilder setIcon(Bitmap icon) {
+            mIcon = icon;
             return this;
         }
 

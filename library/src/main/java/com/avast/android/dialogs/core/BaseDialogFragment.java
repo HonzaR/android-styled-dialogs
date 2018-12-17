@@ -20,7 +20,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -365,6 +367,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
         private View vButtonsDefault;
         private View vButtonsStacked;
         private ListView vList;
+        private Bitmap mIcon;
 
         public Builder(Context context, LayoutInflater inflater, ViewGroup container) {
             this.mContext = context;
@@ -469,6 +472,11 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
             return this;
         }
 
+        public Builder setIcon(Bitmap icon) {
+            this.mIcon = icon;
+            return this;
+        }
+
         public View create() {
 
             content = (LinearLayout) mInflater.inflate(R.layout.sdl_dialog, mContainer, false);
@@ -488,8 +496,8 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
             Typeface regularFont = mFontRegular != null ? mFontRegular : TypefaceHelper.get(mContext, "Roboto-Regular");
             Typeface mediumFont = mFontMedium != null ? mFontMedium :  TypefaceHelper.get(mContext, "Roboto-Medium");
 
-            set(vTitle, mTitle, mediumFont);
-            set(vMessage, mMessage, regularFont);
+            set(vTitle, mTitle, mediumFont, mIcon);
+            set(vMessage, mMessage, regularFont, null);
             setPaddingOfTitleAndMessage(vTitle, vMessage);
 
             if (mCustomView != null) {
@@ -543,15 +551,15 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
             }
 
             if (shouldStackButtons()) {
-                set(vPositiveButtonStacked, mPositiveButtonText, mediumFont, mPositiveButtonListener);
-                set(vNegativeButtonStacked, mNegativeButtonText, mediumFont, mNegativeButtonListener);
-                set(vNeutralButtonStacked, mNeutralButtonText, mediumFont, mNeutralButtonListener);
+                set(vPositiveButtonStacked, mPositiveButtonText, mediumFont, null, mPositiveButtonListener);
+                set(vNegativeButtonStacked, mNegativeButtonText, mediumFont, null, mNegativeButtonListener);
+                set(vNeutralButtonStacked, mNeutralButtonText, mediumFont, null, mNeutralButtonListener);
                 vButtonsDefault.setVisibility(View.GONE);
                 vButtonsStacked.setVisibility(View.VISIBLE);
             } else {
-                set(vPositiveButton, mPositiveButtonText, mediumFont, mPositiveButtonListener);
-                set(vNegativeButton, mNegativeButtonText, mediumFont, mNegativeButtonListener);
-                set(vNeutralButton, mNeutralButtonText, mediumFont, mNeutralButtonListener);
+                set(vPositiveButton, mPositiveButtonText, mediumFont, null, mPositiveButtonListener);
+                set(vNegativeButton, mNegativeButtonText, mediumFont, null, mNegativeButtonListener);
+                set(vNeutralButton, mNeutralButtonText, mediumFont, null, mNeutralButtonListener);
                 vButtonsDefault.setVisibility(View.VISIBLE);
                 vButtonsStacked.setVisibility(View.GONE);
             }
@@ -589,17 +597,23 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
             return text != null && text.length() > MAX_BUTTON_CHARS;
         }
 
-        private void set(Button button, CharSequence text, Typeface font, View.OnClickListener listener) {
-            set(button, text, font);
+        private void set(Button button, CharSequence text, Typeface font, Bitmap icon, View.OnClickListener listener) {
+            set(button, text, font, icon);
             if (listener != null) {
                 button.setOnClickListener(listener);
             }
         }
 
-        private void set(TextView textView, CharSequence text, Typeface font) {
+        private void set(TextView textView, CharSequence text, Typeface font, Bitmap icon) {
             if (text != null) {
                 textView.setText(text);
                 textView.setTypeface(font);
+
+                if (icon != null) {
+                    BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), icon);
+                    textView.setCompoundDrawablesWithIntrinsicBounds(null, null, bitmapDrawable, null);
+                }
+
             } else {
                 textView.setVisibility(View.GONE);
             }

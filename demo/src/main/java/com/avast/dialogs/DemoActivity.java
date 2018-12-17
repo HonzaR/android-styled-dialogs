@@ -18,6 +18,11 @@ package com.avast.dialogs;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -73,11 +78,15 @@ public class DemoActivity extends ActionBarActivity implements
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.img_avast_logo_small);
 
+        final Bitmap iconVector = drawableToBitmap(getResources().getDrawable(R.drawable.ic_info_vector));
+        final Bitmap iconRaster = BitmapFactory.decodeResource(getResources(), R.drawable.ic_info_raster);
+
         findViewById(R.id.message_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SimpleDialogFragment.createBuilder(c, getSupportFragmentManager())
                         .setTitle("Title")
+                        .setIcon(iconRaster)
                         .setFontRegular(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Regular"))
                         .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .setMessage("Love. Can know all the math in the \'verse but take a boat in the air that you don\'t " +
@@ -88,8 +97,10 @@ public class DemoActivity extends ActionBarActivity implements
         findViewById(R.id.message_title_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                  final SimpleDialogFragment dialog = (SimpleDialogFragment) SimpleDialogFragment.createBuilder(c, getSupportFragmentManager())
                          .setTitle("More Firefly quotes:")
+                         .setIcon(iconRaster)
                          .setNegativeButtonText("Close")
                          .setPositiveButtonText("Open")
                          .setNeutralButtonText("Leave it")
@@ -135,6 +146,7 @@ public class DemoActivity extends ActionBarActivity implements
                                 .setPositiveButtonText("Love")
                                 .setNegativeButtonText("Hate")
                                 .setNeutralButtonText("WTF?")
+                                .setIcon(iconRaster)
                                 .setRequestCode(REQUEST_SIMPLE_DIALOG)
                                 .show();
                     }
@@ -153,6 +165,7 @@ public class DemoActivity extends ActionBarActivity implements
                 final ProgressDialogFragment dialog = (ProgressDialogFragment) ProgressDialogFragment.createBuilder(c, getSupportFragmentManager())
                         .setMessage("Mal: I\'m just waiting to see if I pass out. Long story.")
                         .setTitle("title")
+                        .setIcon(iconRaster)
                         .setRequestCode(REQUEST_PROGRESS)
                         .show();
 
@@ -177,6 +190,7 @@ public class DemoActivity extends ActionBarActivity implements
                         .setTitle("Your favorite character:")
                         .setItems(new String[]{"Jayne", "Malcolm", "Kaylee",
                                 "Wash", "Zoe", "River"})
+                        .setIcon(iconRaster)
                         .setRequestCode(REQUEST_LIST_SIMPLE)
                         .show();
 
@@ -190,6 +204,7 @@ public class DemoActivity extends ActionBarActivity implements
                         .setTitle("Your favorite character:")
                         .setItems(new String[]{"Jayne", "Malcolm", "Kaylee",
                                 "Wash", "Zoe", "River"})
+                        .setIcon(iconRaster)
                         .setRequestCode(REQUEST_LIST_SINGLE)
                         .setChoiceMode(AbsListView.CHOICE_MODE_SINGLE)
                         .show();
@@ -204,6 +219,7 @@ public class DemoActivity extends ActionBarActivity implements
                         .setTitle("Your favorite character:")
                         .setItems(new String[]{"Jayne", "Malcolm", "Kaylee",
                                 "Wash", "Zoe", "River"})
+                        .setIcon(iconRaster)
                         .setRequestCode(REQUEST_LIST_MULTIPLE)
                         .setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE)
                         .setCheckedItems(new int[]{1, 3})
@@ -410,4 +426,21 @@ public class DemoActivity extends ActionBarActivity implements
         return darkTheme;
     }
 
+    private Bitmap drawableToBitmap (Drawable drawable)
+    {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(
+                drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
 }
