@@ -34,6 +34,8 @@ public class DatePickerDialogFragment extends BaseDialogFragment {
     protected static final String ARG_NEGATIVE_BUTTON = "negative_button";
     protected static final String ARG_DATE = "date";
     protected static final String ARG_24H = "24h";
+    protected static final String ARG_MIN_DATE = "min_date";
+    protected static final String ARG_MAX_DATE = "max_date";
 
     DatePicker mDatePicker;
     Calendar mCalendar;
@@ -97,6 +99,18 @@ public class DatePickerDialogFragment extends BaseDialogFragment {
         mDatePicker.updateDate(mCalendar.get(Calendar.YEAR)
                 , mCalendar.get(Calendar.MONTH)
                 , mCalendar.get(Calendar.DAY_OF_MONTH));
+
+        long minDate = getArguments().getLong(ARG_MIN_DATE, -1);
+        long maxDate = getArguments().getLong(ARG_MAX_DATE, -1);
+
+        if (minDate > -1) {
+            mDatePicker.setMinDate(minDate);
+        }
+
+        if (maxDate > -1) {
+            mDatePicker.setMaxDate(maxDate);
+        }
+
         return builder;
     }
 
@@ -141,6 +155,8 @@ public class DatePickerDialogFragment extends BaseDialogFragment {
 
     public static class SimpleDialogBuilder extends BaseDialogBuilder<SimpleDialogBuilder> {
         Date mDate = new Date();
+        Date mMinDate = null;
+        Date mMaxDate = null;
         String mTimeZone = null;
 
         private CharSequence mTitle;
@@ -201,6 +217,16 @@ public class DatePickerDialogFragment extends BaseDialogFragment {
             return this;
         }
 
+        public SimpleDialogBuilder setMinDate(Date minDate) {
+            mMinDate = minDate;
+            return this;
+        }
+
+        public SimpleDialogBuilder setMaxDate(Date maxDate) {
+            mMaxDate = maxDate;
+            return this;
+        }
+
         @Override
         protected Bundle prepareArguments() {
             Bundle args = new Bundle();
@@ -215,6 +241,11 @@ public class DatePickerDialogFragment extends BaseDialogFragment {
             } else {
                 args.putString(ARG_ZONE, TimeZone.getDefault().getID());
             }
+
+            args.putLong(ARG_MIN_DATE, mMinDate != null ? mMinDate.getTime() : -1);
+
+            args.putLong(ARG_MAX_DATE, mMaxDate != null ? mMaxDate.getTime() : -1);
+
             return args;
         }
 
