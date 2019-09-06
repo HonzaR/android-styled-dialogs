@@ -353,6 +353,10 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
         private Typeface mFontRegular;
         private Typeface mFontMedium;
 
+        // sizes
+        private boolean mFullWidth;
+        private boolean mFullHeight;
+
         // Views
         private LinearLayout content;
         private TextView vTitle;
@@ -477,6 +481,16 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
             return this;
         }
 
+        public Builder setFullWidth(boolean set) {
+            this.mFullWidth = set;
+            return this;
+        }
+
+        public Builder setFullHeight(boolean set) {
+            this.mFullHeight = set;
+            return this;
+        }
+
         public View create() {
 
             content = (LinearLayout) mInflater.inflate(R.layout.sdl_dialog, mContainer, false);
@@ -566,6 +580,34 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
             if (TextUtils.isEmpty(mPositiveButtonText) && TextUtils.isEmpty(mNegativeButtonText) && TextUtils.isEmpty
                     (mNeutralButtonText)) {
                 vButtonsDefault.setVisibility(View.GONE);
+            }
+
+            if (mFullWidth || mFullHeight) {
+
+                content.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        ViewTreeObserver vto = vList.getViewTreeObserver();
+                        if (vto != null && vto.isAlive()) {
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+                                vto.removeGlobalOnLayoutListener(this);
+                            else
+                                vto.removeOnGlobalLayoutListener(this);
+                        }
+                        new ViewTreeObserver.OnGlobalLayoutListener() {
+                            @Override
+                            public void onGlobalLayout() {
+
+                                if (mFullWidth && mFullHeight)
+                                    getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                                else if (mFullWidth)
+                                    getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                else
+                                    getDialog().getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                            }
+                        }.onGlobalLayout();
+                    }
+                });
             }
 
             return content;

@@ -57,6 +57,8 @@ public class SimpleDialogFragment extends BaseDialogFragment {
     static Typeface mFontRegular = null;
     static Typeface mFontMedium = null;
     static Bitmap mIcon = null;
+    static boolean mFullWidth = false;
+    static boolean mFullHeight = false;
 
     public static SimpleDialogBuilder createBuilder(Context context, FragmentManager fragmentManager) {
         return new SimpleDialogBuilder(context, fragmentManager, SimpleDialogFragment.class);
@@ -137,6 +139,12 @@ public class SimpleDialogFragment extends BaseDialogFragment {
         if (icon != null) {
             builder.setIcon(icon);
         }
+
+        final boolean fullWidth = getFullWidth();
+        builder.setFullWidth(fullWidth);
+
+        final boolean fullHeight = getFullHeight();
+        builder.setFullHeight(fullHeight);
 
         return builder;
     }
@@ -222,6 +230,14 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 
     public Bitmap getIcon() {
         return mIcon;
+    }
+
+    public boolean getFullWidth() {
+        return mFullWidth;
+    }
+
+    public boolean getFullHeight() {
+        return mFullHeight;
     }
 
     /**
@@ -313,6 +329,8 @@ public class SimpleDialogFragment extends BaseDialogFragment {
             mFontRegular = null;
             mFontMedium = null;
             mIcon = null;
+            mFullWidth = false;
+            mFullHeight = false;
         }
 
         @Override
@@ -348,6 +366,16 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 
         public SimpleDialogBuilder setIcon(Bitmap bitmap) {
             mIcon = bitmap;
+            return this;
+        }
+
+        public SimpleDialogBuilder setFullWidth(boolean set) {
+            mFullWidth = set;
+            return this;
+        }
+
+        public SimpleDialogBuilder setFullHeight(boolean set) {
+            mFullHeight = set;
             return this;
         }
 

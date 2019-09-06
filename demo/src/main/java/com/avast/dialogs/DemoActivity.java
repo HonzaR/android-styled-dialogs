@@ -32,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Toast;
 
@@ -91,7 +92,10 @@ public class DemoActivity extends AppCompatActivity implements
                         .setFontMedium(TypefaceHelper.get(DemoActivity.this, "AmaticSC-Bold"))
                         .setMessage("Love. Can know all the math in the \'verse but take a boat in the air that you don\'t " +
                                 "love? She\'ll shake you off just as sure as a turn in the worlds. Love keeps her in the air when " +
-                                "she oughtta fall down...tell you she\'s hurtin\' \'fore she keens...makes her a home.").show();
+                                "she oughtta fall down...tell you she\'s hurtin\' \'fore she keens...makes her a home.")
+                        .setFullHeight(true)
+                        .setFullWidth(true)
+                        .show();
             }
         });
         findViewById(R.id.message_title_dialog).setOnClickListener(new View.OnClickListener() {
@@ -132,8 +136,10 @@ public class DemoActivity extends AppCompatActivity implements
                          dialog.setPositiveBtnText("new positive 2");
                          dialog.setNegativeBtnText("new negative 2");
                          dialog.setNeutralBtnText("new neutral 2");
+
                      }
                  }, 5500);
+
             }
         });
         findViewById(R.id.message_title_buttons_dialog)

@@ -55,6 +55,8 @@ public class JayneHatDialogFragment extends SimpleDialogFragment {
                 dismiss();
             }
         });
+        builder.setFullWidth(true);
+        builder.setFullHeight(true);
         return builder;
     }
 }
