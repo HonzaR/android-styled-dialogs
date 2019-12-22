@@ -71,8 +71,11 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
     protected final static String MESSAGE = "message";
     protected final static String CUSTOM_VIEW = "custom_view";
     protected final static String POSITIVE_BUTTON = "positive_button";
+    protected final static String POSITIVE_STCK_BUTTON = "positive_stck_button";
     protected final static String NEGATIVE_BUTTON = "negative_button";
+    protected final static String NEGATIVE_STCK_BUTTON = "negative_stck_button";
     protected final static String NEUTRAL_BUTTON = "neutral_button";
+    protected final static String NEUTRAL_STCK_BUTTON = "neutral_stck_button";
     protected final static String LIST = "list";
 
     @NonNull
@@ -131,6 +134,12 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
                 return builder.getvNegativeButton();
             case NEUTRAL_BUTTON:
                 return builder.getvNeutralButton();
+            case POSITIVE_STCK_BUTTON:
+                return builder.getvPositiveButtonStacked();
+            case NEGATIVE_STCK_BUTTON:
+                return builder.getvNegativeButtonStacked();
+            case NEUTRAL_STCK_BUTTON:
+                return builder.getvNeutralButtonStacked();
             case LIST:
                 return builder.getvList();
             default:

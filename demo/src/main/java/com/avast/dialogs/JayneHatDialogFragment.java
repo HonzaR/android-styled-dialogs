@@ -15,6 +15,7 @@
  */
 package com.avast.dialogs;
 
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,8 +56,22 @@ public class JayneHatDialogFragment extends SimpleDialogFragment {
                 dismiss();
             }
         });
+        builder.setNegativeButton("I want", null);
+        builder.setNeutralButton("I", null);
         builder.setFullWidth(true);
         builder.setFullHeight(true);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setMessage("new message");
+                setTitle("new title");
+                setPositiveBtnText("new positive");
+                setNegativeBtnText("new negative");
+                setNeutralBtnText("new neutral");
+            }
+        }, 2500);
+
         return builder;
     }
 }

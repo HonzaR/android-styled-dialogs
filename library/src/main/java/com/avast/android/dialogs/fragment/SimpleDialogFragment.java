@@ -186,12 +186,18 @@ public class SimpleDialogFragment extends BaseDialogFragment {
         if (getPositiveBtnView() != null)
             return getPositiveBtnView().getText();
 
+        if (getPositiveStackedBtnView() != null)
+            return getPositiveStackedBtnView().getText();
+
         return null;
     }
     public void setPositiveBtnText(CharSequence message)
     {
         if (getPositiveBtnView() != null)
             getPositiveBtnView().setText(message);
+
+        if (getPositiveStackedBtnView() != null)
+            getPositiveStackedBtnView().setText(message);
     }
 
     public CharSequence getNegativeButtonText()
@@ -199,18 +205,27 @@ public class SimpleDialogFragment extends BaseDialogFragment {
         if (getNegativeBtnView() != null)
             return getNegativeBtnView().getText();
 
+        if (getNegativeStackedBtnView() != null)
+            return getNegativeStackedBtnView().getText();
+
         return null;
     }
     public void setNegativeBtnText(CharSequence message)
     {
         if (getNegativeBtnView() != null)
             getNegativeBtnView().setText(message);
+
+        if (getNegativeStackedBtnView() != null)
+            getNegativeStackedBtnView().setText(message);
     }
 
     public CharSequence getNeutralButtonText()
     {
         if (getNeutralBtnView() != null)
             return getNeutralBtnView().getText();
+
+        if (getNeutralStackedBtnView() != null)
+            return getNeutralStackedBtnView().getText();
 
         return null;
     }
@@ -314,6 +329,18 @@ public class SimpleDialogFragment extends BaseDialogFragment {
 
     public Button getNeutralBtnView() {
         return (Button) getDialogView(BaseDialogFragment.NEUTRAL_BUTTON);
+    }
+
+    public Button getPositiveStackedBtnView() {
+        return (Button) getDialogView(BaseDialogFragment.POSITIVE_STCK_BUTTON);
+    }
+
+    public Button getNegativeStackedBtnView() {
+        return (Button) getDialogView(BaseDialogFragment.NEGATIVE_STCK_BUTTON);
+    }
+
+    public Button getNeutralStackedBtnView() {
+        return (Button) getDialogView(BaseDialogFragment.NEUTRAL_STCK_BUTTON);
     }
 
     public static class SimpleDialogBuilder extends BaseDialogBuilder<SimpleDialogBuilder> {
