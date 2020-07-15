@@ -64,6 +64,7 @@ import java.util.List;
 public abstract class BaseDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
 
     protected int mRequestCode;
+    protected boolean mForceStackedButtons;
     protected Builder builder;
 
     protected final static String CONTENT = "content";
@@ -86,8 +87,8 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
 
         Bundle args = getArguments();
         if (args != null) {
-            dialog.setCanceledOnTouchOutside(
-                    args.getBoolean(BaseDialogBuilder.ARG_CANCELABLE_ON_TOUCH_OUTSIDE));
+            dialog.setCanceledOnTouchOutside(args.getBoolean(BaseDialogBuilder.ARG_CANCELABLE_ON_TOUCH_OUTSIDE));
+            mForceStackedButtons = args.getBoolean(BaseDialogBuilder.ARG_USE_STACKED_BUTTONS, false);
         }
         dialog.setOnShowListener(this);
         return dialog;
@@ -573,7 +574,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
                 }
             }
 
-            if (shouldStackButtons()) {
+            if (mForceStackedButtons || shouldStackButtons()) {
                 set(vPositiveButtonStacked, mPositiveButtonText, mediumFont, null, mPositiveButtonListener);
                 set(vNegativeButtonStacked, mNegativeButtonText, mediumFont, null, mNegativeButtonListener);
                 set(vNeutralButtonStacked, mNeutralButtonText, mediumFont, null, mNeutralButtonListener);

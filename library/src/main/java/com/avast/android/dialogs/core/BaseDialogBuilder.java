@@ -22,6 +22,7 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
     private int mRequestCode = DEFAULT_REQUEST_CODE;
     public static String ARG_USE_DARK_THEME = "usedarktheme";
     public static String ARG_USE_LIGHT_THEME = "uselighttheme";
+    public static String ARG_USE_STACKED_BUTTONS = "usestackedbuttons";
     protected final Context mContext;
     protected final FragmentManager mFragmentManager;
     protected final Class<? extends BaseDialogFragment> mClass;
@@ -30,6 +31,7 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
     private boolean mCancelableOnTouchOutside = true;
     private boolean mUseDarkTheme = false;
     private boolean mUseLightTheme = false;
+    private boolean mUseStackedButtons = false;
 
     public BaseDialogBuilder(Context context, FragmentManager fragmentManager, Class<? extends BaseDialogFragment> clazz) {
         mFragmentManager = fragmentManager;
@@ -80,6 +82,11 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
         return self();
     }
 
+    public T useStackedButtons() {
+        mUseStackedButtons = true;
+        return self();
+    }
+
     private BaseDialogFragment create() {
         final Bundle args = prepareArguments();
 
@@ -90,6 +97,8 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
         args.putBoolean(ARG_USE_DARK_THEME, mUseDarkTheme);
 
         args.putBoolean(ARG_USE_LIGHT_THEME, mUseLightTheme);
+
+        args.putBoolean(ARG_USE_STACKED_BUTTONS, mUseStackedButtons);
 
         if (mTargetFragment != null) {
             fragment.setTargetFragment(mTargetFragment, mRequestCode);
